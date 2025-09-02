@@ -1,151 +1,175 @@
 export default function Steps() {
   return (
     <>
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto flex flex-wrap">
+      <section className="text-gray-600 body-font bg-white">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Carbon Credit कैसे काम करता है?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              सिर्फ 5 आसान steps में अपनी sustainable farming को carbon credits में बदलें
+            </p>
+          </div>
+          
           <div className="flex flex-wrap w-full">
             <div className="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
               <div className="flex relative pb-12">
                 <div className="h-full w-10 absolute inset-0 flex items-center justify-center">
-                  <div className="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                  <div className="h-full w-1 bg-green-200 pointer-events-none"></div>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-600 inline-flex items-center justify-center text-white relative z-10">
                   <svg
                     fill="none"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
                   </svg>
                 </div>
                 <div className="flex-grow pl-4">
-                  <h2 className="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
-                    STEP 1
+                  <h2 className="font-bold title-font text-lg text-gray-900 mb-2 tracking-wider">
+                    STEP 1: Registration
                   </h2>
-                  <p className="leading-relaxed">
-                    VHS cornhole pop-up, try-hard 8-bit iceland helvetica.
-                    Kinfolk bespoke try-hard cliche palo santo offal.
+                  <p className="leading-relaxed text-gray-600">
+                    अपना account बनाएं और farm की basic जानकारी दें - farm size, location, crops, और current practices।
                   </p>
                 </div>
               </div>
+              
               <div className="flex relative pb-12">
                 <div className="h-full w-10 absolute inset-0 flex items-center justify-center">
-                  <div className="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                  <div className="h-full w-1 bg-green-200 pointer-events-none"></div>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-600 inline-flex items-center justify-center text-white relative z-10">
                   <svg
                     fill="none"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9,22 9,12 15,12 15,22"></polyline>
                   </svg>
                 </div>
                 <div className="flex-grow pl-4">
-                  <h2 className="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
-                    STEP 2
+                  <h2 className="font-bold title-font text-lg text-gray-900 mb-2 tracking-wider">
+                    STEP 2: Sustainable Practices
                   </h2>
-                  <p className="leading-relaxed">
-                    Vice migas literally kitsch +1 pok pok. Truffaut hot chicken
-                    slow-carb health goth, vape typewriter.
+                  <p className="leading-relaxed text-gray-600">
+                    Organic farming, कम fertilizer, crop rotation, tree plantation - जो भी eco-friendly practices करें, record करें।
                   </p>
                 </div>
               </div>
+              
               <div className="flex relative pb-12">
                 <div className="h-full w-10 absolute inset-0 flex items-center justify-center">
-                  <div className="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                  <div className="h-full w-1 bg-green-200 pointer-events-none"></div>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-600 inline-flex items-center justify-center text-white relative z-10">
                   <svg
                     fill="none"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     viewBox="0 0 24 24"
                   >
-                    <circle cx="12" cy="5" r="3"></circle>
-                    <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+                    <path d="M9 12l2 2 4-4"></path>
+                    <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                    <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
                   </svg>
                 </div>
                 <div className="flex-grow pl-4">
-                  <h2 className="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
-                    STEP 3
+                  <h2 className="font-bold title-font text-lg text-gray-900 mb-2 tracking-wider">
+                    STEP 3: Verification
                   </h2>
-                  <p className="leading-relaxed">
-                    Coloring book nar whal glossier master cleanse umami. Salvia
-                    +1 master cleanse blog taiyaki.
+                  <p className="leading-relaxed text-gray-600">
+                    हमारी AI और satellite technology आपकी practices को verify करती है। Photos, GPS data, और soil samples से।
                   </p>
                 </div>
               </div>
+              
               <div className="flex relative pb-12">
                 <div className="h-full w-10 absolute inset-0 flex items-center justify-center">
-                  <div className="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                  <div className="h-full w-1 bg-green-200 pointer-events-none"></div>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-600 inline-flex items-center justify-center text-white relative z-10">
                   <svg
                     fill="none"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                   </svg>
                 </div>
                 <div className="flex-grow pl-4">
-                  <h2 className="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
-                    STEP 4
+                  <h2 className="font-bold title-font text-lg text-gray-900 mb-2 tracking-wider">
+                    STEP 4: Carbon Credits Generation
                   </h2>
-                  <p className="leading-relaxed">
-                    VHS cornhole pop-up, try-hard 8-bit iceland helvetica.
-                    Kinfolk bespoke try-hard cliche palo santo offal.
+                  <p className="leading-relaxed text-gray-600">
+                    आपकी sustainable practices के basis पर carbon credits calculate होते हैं और blockchain में store होते हैं।
                   </p>
                 </div>
               </div>
+              
               <div className="flex relative">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-600 inline-flex items-center justify-center text-white relative z-10">
                   <svg
                     fill="none"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-                    <path d="M22 4L12 14.01l-3-3"></path>
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                   </svg>
                 </div>
                 <div className="flex-grow pl-4">
-                  <h2 className="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
-                    FINISH
+                  <h2 className="font-bold title-font text-lg text-gray-900 mb-2 tracking-wider">
+                    STEP 5: Get Paid
                   </h2>
-                  <p className="leading-relaxed">
-                    Pitchfork ugh tattooed scenester echo park gastropub
-                    whatever cold-pressed retro.
+                  <p className="leading-relaxed text-gray-600">
+                    Companies आपके carbon credits खरीदती हैं और payment direct आपके UPI/bank account में आ जाती है।
                   </p>
                 </div>
               </div>
             </div>
-            <img
-              className="lg:w-3/5 md:w-1/2 object-cover object-center rounded-lg md:mt-0 mt-12"
-              src="https://dummyimage.com/1200x500"
-              alt="step"
-            />
+            
+            <div className="lg:w-3/5 md:w-1/2 flex flex-col space-y-4">
+              <img
+                className="w-full h-64 object-cover object-center rounded-lg shadow-lg"
+                src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                alt="Sustainable farming practices"
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <img
+                  className="w-full h-32 object-cover object-center rounded-lg shadow-md"
+                  src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                  alt="Organic farming"
+                />
+                <img
+                  className="w-full h-32 object-cover object-center rounded-lg shadow-md"
+                  src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                  alt="Tree plantation"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
