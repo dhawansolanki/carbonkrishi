@@ -41,12 +41,12 @@ export default function SignupPage() {
                                 <span className="text-2xl font-bold">CarbonKrishi</span>
                             </Link>
                             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                                Join Carbon Credit Platform
+                                Join the Carbon Credit Platform
                             </h1>
                             <p className="text-gray-600">
                                 {userType === 'farmer' 
-                                    ? 'किसान के रूप में register करें और carbon credits earn करें'
-                                    : 'Company के रूप में register करें और carbon credits खरीदें'
+                                    ? 'Register as a farmer to monetize your sustainable practices'
+                                    : 'Register as a company to purchase verified carbon offsets'
                                 }
                             </p>
                         </div>
@@ -62,7 +62,7 @@ export default function SignupPage() {
                                 }`}
                             >
                                 <Leaf className="h-5 w-5 mr-2" />
-                                Farmer Registration
+                                Register as Farmer
                             </button>
                             <button
                                 onClick={() => setUserType('company')}
@@ -73,7 +73,7 @@ export default function SignupPage() {
                                 }`}
                             >
                                 <Building2 className="h-5 w-5 mr-2" />
-                                Company Registration
+                                Register as Company
                             </button>
                         </div>
 

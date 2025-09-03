@@ -40,10 +40,10 @@ export default function FarmerDashboard() {
         {/* Dashboard Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            किसान Dashboard
+            Farmer Dashboard
           </h1>
           <p className="text-gray-600">
-            अपनी farming activities को track करें और carbon credits earn करें
+            Monitor your sustainable farming activities and generate carbon credits
           </p>
         </div>
 
@@ -120,24 +120,24 @@ export default function FarmerDashboard() {
           <div className="p-6">
             {activeTab === 'overview' && (
               <div className="space-y-6">
-                <h3 className="text-xl font-semibold">Farm Overview</h3>
+                <h3 className="text-xl font-semibold">Farm Activity Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-green-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-green-800 mb-2">Current Practices</h4>
+                    <h4 className="font-semibold text-green-800 mb-2">Active Sustainable Practices</h4>
                     <ul className="space-y-1 text-sm text-green-700">
-                      <li>• Organic fertilizer usage</li>
-                      <li>• Crop rotation implemented</li>
-                      <li>• Water conservation methods</li>
-                      <li>• 50 trees planted this season</li>
+                      <li>• Organic fertilizer application</li>
+                      <li>• Crop rotation system in place</li>
+                      <li>• Water conservation techniques</li>
+                      <li>• 50 trees planted this growing season</li>
                     </ul>
                   </div>
                   <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-800 mb-2">Next Actions</h4>
+                    <h4 className="font-semibold text-blue-800 mb-2">Pending Actions</h4>
                     <ul className="space-y-1 text-sm text-blue-700">
-                      <li>• Upload soil test report</li>
-                      <li>• Submit monthly farm photos</li>
-                      <li>• Update fertilizer usage data</li>
-                      <li>• Schedule verification visit</li>
+                      <li>• Upload soil analysis report</li>
+                      <li>• Submit monthly farm documentation</li>
+                      <li>• Update fertilizer application records</li>
+                      <li>• Schedule verification inspection</li>
                     </ul>
                   </div>
                 </div>
@@ -146,14 +146,14 @@ export default function FarmerDashboard() {
 
             {activeTab === 'farm-data' && (
               <div className="space-y-6">
-                <h3 className="text-xl font-semibold">Farm Data Entry</h3>
+                <h3 className="text-xl font-semibold">Farm Information Management</h3>
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="farmSize">Farm Size (Acres)</Label>
                     <Input
                       id="farmSize"
                       type="number"
-                      placeholder="Enter farm size"
+                      placeholder="Enter total farm area"
                       value={farmData.farmSize}
                       onChange={(e) => handleInputChange('farmSize', e.target.value)}
                     />
@@ -177,7 +177,7 @@ export default function FarmerDashboard() {
                       value={farmData.cropType}
                       onChange={(e) => handleInputChange('cropType', e.target.value)}
                     >
-                      <option value="">Select Crop</option>
+                      <option value="">Select primary crop type</option>
                       <option value="rice">Rice</option>
                       <option value="wheat">Wheat</option>
                       <option value="sugarcane">Sugarcane</option>
@@ -194,7 +194,7 @@ export default function FarmerDashboard() {
                       value={farmData.practiceType}
                       onChange={(e) => handleInputChange('practiceType', e.target.value)}
                     >
-                      <option value="">Select Practice</option>
+                      <option value="">Select sustainable practice</option>
                       <option value="organic">Organic Farming</option>
                       <option value="reduced-tillage">Reduced Tillage</option>
                       <option value="crop-rotation">Crop Rotation</option>
@@ -208,7 +208,7 @@ export default function FarmerDashboard() {
                     <Input
                       id="fertilizer"
                       type="number"
-                      placeholder="Enter fertilizer amount"
+                      placeholder="Enter fertilizer quantity"
                       value={farmData.fertilizer}
                       onChange={(e) => handleInputChange('fertilizer', e.target.value)}
                     />
@@ -219,7 +219,7 @@ export default function FarmerDashboard() {
                     <Input
                       id="waterUsage"
                       type="number"
-                      placeholder="Enter water usage"
+                      placeholder="Enter daily water consumption"
                       value={farmData.waterUsage}
                       onChange={(e) => handleInputChange('waterUsage', e.target.value)}
                     />
@@ -230,7 +230,7 @@ export default function FarmerDashboard() {
                     <Input
                       id="treesPlanted"
                       type="number"
-                      placeholder="Number of trees planted"
+                      placeholder="Total trees planted this season"
                       value={farmData.treesPlanted}
                       onChange={(e) => handleInputChange('treesPlanted', e.target.value)}
                     />
@@ -238,7 +238,7 @@ export default function FarmerDashboard() {
                   
                   <div className="md:col-span-2">
                     <Button className="w-full bg-green-600 hover:bg-green-700">
-                      Submit Farm Data
+                      Save Farm Information
                     </Button>
                   </div>
                 </form>

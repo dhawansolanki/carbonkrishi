@@ -1,44 +1,55 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 export default function Hero() {
+    const messages = [
+        { text: "Reduced chemical usage, increased earnings", color: "bg-green-500" },
+        { text: "Blockchain-verified transactions", color: "bg-blue-500" },
+        { text: "Direct UPI payments", color: "bg-yellow-500" }
+    ]
+    
+    const [currentIndex, setCurrentIndex] = useState(0)
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % messages.length)
+        }, 1500) // Change every 1.5 seconds
+        
+        return () => clearInterval(interval)
+    }, [messages.length])
+    
     return (
     <section className="text-gray-600 body-font bg-gradient-to-br from-green-50 to-blue-50">
   <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
     <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
       <h1 className="title-font sm:text-5xl text-4xl mb-4 font-bold text-gray-900 leading-tight">
-        किसानों के लिए 
+        Empowering Farmers with 
         <br className="hidden lg:inline-block" />
-        <span className="text-green-600">Carbon Credits</span> से 
+        <span className="text-green-600">Carbon Credits</span> for 
         <br className="hidden lg:inline-block" />
-        अतिरिक्त आमदनी
+        Sustainable Income
       </h1>
       <p className="mb-6 leading-relaxed text-lg text-gray-700">
-        अपनी sustainable farming practices को carbon credits में बदलें और extra income कमाएं। 
-        हमारा platform आपकी eco-friendly खेती को verify करके companies को बेचता है।
+        Transform your sustainable farming practices into verified carbon credits and generate additional income. 
+        Our platform authenticates your eco-friendly farming methods and connects you directly with companies seeking carbon offsets.
       </p>
-      <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-        <div className="flex items-center">
-          <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-          <span>कम रसायन, ज्यादा कमाई</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-          <span>Blockchain verified</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
-          <span>Direct UPI payments</span>
+      <div className="mb-8 flex justify-center text-sm">
+        <div className="flex items-center min-h-[24px]">
+          <div className={`w-3 h-3 rounded-full mr-2 transition-all duration-500 ${messages[currentIndex].color}`}></div>
+          <span className="transition-all duration-500 animate-fade-in">{messages[currentIndex].text}</span>
         </div>
       </div>
       <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
         <Link href="/signup">
           <button className="inline-flex text-white bg-green-600 border-0 py-3 px-8 focus:outline-none hover:bg-green-700 rounded-lg text-lg font-semibold transition-colors shadow-lg">
-            किसान Registration
+            Register as Farmer
           </button>
         </Link>
         <Link href="/marketplace">
           <button className="inline-flex text-green-700 bg-white border-2 border-green-600 py-3 px-8 focus:outline-none hover:bg-green-50 rounded-lg text-lg font-semibold transition-colors">
-            Marketplace देखें
+            Explore Marketplace
           </button>
         </Link>
       </div>

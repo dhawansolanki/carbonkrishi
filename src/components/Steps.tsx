@@ -5,10 +5,10 @@ export default function Steps() {
         <div className="container px-5 py-24 mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Carbon Credit कैसे काम करता है?
+              How Do Carbon Credits Work?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              सिर्फ 5 आसान steps में अपनी sustainable farming को carbon credits में बदलें
+              Transform your sustainable farming into carbon credits in just 5 easy steps
             </p>
           </div>
           
@@ -37,7 +37,7 @@ export default function Steps() {
                     STEP 1: Registration
                   </h2>
                   <p className="leading-relaxed text-gray-600">
-                    अपना account बनाएं और farm की basic जानकारी दें - farm size, location, crops, और current practices।
+                    Create your account and provide basic farm information - farm size, location, crops, and current practices.
                   </p>
                 </div>
               </div>
@@ -65,7 +65,7 @@ export default function Steps() {
                     STEP 2: Sustainable Practices
                   </h2>
                   <p className="leading-relaxed text-gray-600">
-                    Organic farming, कम fertilizer, crop rotation, tree plantation - जो भी eco-friendly practices करें, record करें।
+                    Document your sustainable farming methods including organic practices, reduced chemical inputs, crop rotation systems, and tree plantation initiatives.
                   </p>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function Steps() {
                     STEP 3: Verification
                   </h2>
                   <p className="leading-relaxed text-gray-600">
-                    हमारी AI और satellite technology आपकी practices को verify करती है। Photos, GPS data, और soil samples से।
+                    Our advanced AI and satellite monitoring technology authenticates your sustainable practices through photographic evidence, GPS coordinates, and soil analysis.
                   </p>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function Steps() {
                     STEP 4: Carbon Credits Generation
                   </h2>
                   <p className="leading-relaxed text-gray-600">
-                    आपकी sustainable practices के basis पर carbon credits calculate होते हैं और blockchain में store होते हैं।
+                    Carbon credits are precisely calculated based on your verified sustainable practices and securely recorded on an immutable blockchain ledger.
                   </p>
                 </div>
               </div>
@@ -145,7 +145,7 @@ export default function Steps() {
                     STEP 5: Get Paid
                   </h2>
                   <p className="leading-relaxed text-gray-600">
-                    Companies आपके carbon credits खरीदती हैं और payment direct आपके UPI/bank account में आ जाती है।
+                    Companies purchase your verified carbon credits and payments are transferred directly to your UPI or bank account.
                   </p>
                 </div>
               </div>
