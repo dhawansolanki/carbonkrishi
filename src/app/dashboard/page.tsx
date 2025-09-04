@@ -1,36 +1,61 @@
 'use client'
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import Header from '@/components/Header'
-import { 
-  Leaf, 
-  MapPin, 
-  Camera, 
-  TrendingUp, 
-  Coins, 
-  Calendar,
-  Upload,
-  CheckCircle
-} from 'lucide-react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
-export default function FarmerDashboard() {
-  const [activeTab, setActiveTab] = useState('overview')
-  const [farmData, setFarmData] = useState({
-    farmSize: '',
-    location: '',
-    cropType: '',
-    practiceType: '',
-    fertilizer: '',
-    waterUsage: '',
-    treesPlanted: ''
-  })
+export default function DashboardRouter() {
+  const router = useRouter()
+  const { toast } = useToast()
 
-  const handleInputChange = (field: string, value: string) => {
-    setFarmData(prev => ({ ...prev, [field]: value }))
-  }
+  useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('token')
+    if (!token) {
+      toast({
+        title: 'Authentication required',
+        description: 'Please log in to access the dashboard',
+        variant: 'destructive'
+      })
+      router.push('/login')
+      return
+    }
+
+    // Get user role and redirect to appropriate dashboard
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}')
+      const role = user.role
+
+      if (role === 'farmer') {
+        router.push('/dashboard/farmer')
+      } else if (role === 'company') {
+        router.push('/dashboard/company')
+      } else if (role === 'admin') {
+        router.push('/dashboard/admin')
+      } else {
+        // If role is not recognized, log out and redirect to login
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        toast({
+          title: 'Invalid user role',
+          description: 'Please log in again',
+          variant: 'destructive'
+        })
+        router.push('/login')
+      }
+    } catch (error) {
+      console.error('Error parsing user data:', error)
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      toast({
+        title: 'Session error',
+        description: 'Please log in again',
+        variant: 'destructive'
+      })
+      router.push('/login')
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
