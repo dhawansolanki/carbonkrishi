@@ -187,8 +187,67 @@ const getCreditDetails = async (req, res) => {
   }
 };
 
+// @desc    Purchase carbon credits
+// @route   POST /api/marketplace/purchase
+// @access  Private (Company only)
+const purchaseCredits = async (req, res) => {
+  try {
+    const { creditId } = req.body;
+    const companyId = req.user.id;
+
+    // Find the credit
+    const credit = await CarbonCredit.findById(creditId);
+    if (!credit) {
+      return res.status(404).json({ message: 'Carbon credit not found' });
+    }
+
+    if (credit.status !== 'available') {
+      return res.status(400).json({ message: 'Credit is not available for purchase' });
+    }
+
+    // Create transaction
+    const transaction = new Transaction({
+      buyerId: companyId,
+      sellerId: credit.farmerId,
+      carbonCredits: [{
+        creditId: creditId,
+        quantity: credit.creditAmount,
+        pricePerCredit: credit.pricePerCredit
+      }],
+      totalCredits: credit.creditAmount,
+      totalAmount: credit.creditAmount * credit.pricePerCredit,
+      status: 'completed',
+      paymentDetails: {
+        method: 'bank_transfer',
+        paymentDate: new Date()
+      }
+    });
+
+    await transaction.save();
+
+    // Update credit status
+    credit.status = 'sold';
+    credit.soldDate = new Date();
+    await credit.save();
+
+    res.json({
+      message: 'Credits purchased successfully',
+      transaction: {
+        id: transaction._id,
+        credits: transaction.totalCredits,
+        amount: transaction.totalAmount,
+        date: transaction.createdAt
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   getMarketplaceStats,
   getPublicCredits,
-  getCreditDetails
+  getCreditDetails,
+  purchaseCredits
 };

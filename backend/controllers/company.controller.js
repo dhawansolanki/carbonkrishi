@@ -31,25 +31,34 @@ const getDashboard = async (req, res) => {
         : 0
     };
 
+    // Get available marketplace credits
+    const availableCredits = await CarbonCredit.find({ status: 'available' })
+      .limit(10)
+      .populate('farmerId', 'farmDetails.farmName farmDetails.farmLocation');
+
     res.json({
-      companyInfo: {
-        name: req.user.name,
-        companyName: company.companyDetails?.companyName || req.user.name,
-        industry: company.companyDetails?.industry || 'Not specified'
-      },
-      carbonFootprint: company.carbonFootprint || {
-        annualEmissions: 0,
-        emissionGoals: 0,
-        reportingYear: new Date().getFullYear()
-      },
-      offsetStats,
+      totalCredits: company.carbonCredits.purchased || 0,
+      totalSpent: company.totalSpent || 0,
+      availableCredits: availableCredits.length,
+      pendingTransactions: 0,
       recentTransactions: transactions.map(t => ({
         id: t._id,
         date: t.createdAt,
-        seller: t.sellerId?.farmDetails?.farmName || 'Unknown Farmer',
+        farmerName: t.sellerId?.farmDetails?.farmName || 'Unknown Farmer',
+        farmerId: t.sellerId?._id,
+        location: t.sellerId?.farmDetails?.farmLocation?.village || 'Unknown',
         credits: t.totalCredits,
         amount: t.totalAmount,
         status: t.status
+      })),
+      availableMarketplace: availableCredits.map(credit => ({
+        _id: credit._id,
+        farmerName: credit.farmerId?.farmDetails?.farmName || 'Unknown Farmer',
+        location: credit.farmerId?.farmDetails?.farmLocation?.village || 'Unknown Location',
+        practiceType: credit.metadata?.practiceType || 'Unknown',
+        credits: credit.creditAmount,
+        price: credit.creditAmount * credit.pricePerCredit,
+        verificationStatus: 'verified'
       }))
     });
   } catch (error) {

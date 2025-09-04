@@ -49,31 +49,47 @@ const getDashboard = async (req, res) => {
       .populate('buyerId', 'companyDetails.companyName')
       .populate('sellerId', 'farmDetails.farmName');
     
+    // Get recent verifications for frontend
+    const recentVerifications = await Farmer.aggregate([
+      { $unwind: '$sustainablePractices' },
+      { $match: { 'sustainablePractices.verificationStatus': { $in: ['pending', 'verified', 'rejected'] } } },
+      { $sort: { 'sustainablePractices.createdAt': -1 } },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $project: {
+          _id: '$sustainablePractices._id',
+          farmerName: { $arrayElemAt: ['$user.name', 0] },
+          practiceType: '$sustainablePractices.practiceType',
+          verificationStatus: '$sustainablePractices.verificationStatus',
+          submittedDate: '$sustainablePractices.createdAt',
+          verificationDate: '$sustainablePractices.verificationDate'
+        }
+      }
+    ]);
+
     res.json({
-      userStats: {
-        totalFarmers,
-        totalCompanies,
-        totalUsers: totalFarmers + totalCompanies
-      },
-      verificationStats: {
-        pendingPractices: pendingPractices[0]?.total || 0
-      },
-      creditStats: {
-        totalCredits: totalCredits[0]?.total || 0,
-        availableCredits: availableCredits[0]?.total || 0,
-        soldCredits: soldCredits[0]?.total || 0
-      },
-      transactionStats: {
-        totalTransactions,
-        transactionVolume: transactionVolume[0]?.total || 0
-      },
+      totalFarmers,
+      totalCompanies,
+      totalCredits: totalCredits[0]?.total || 0,
+      pendingVerifications: pendingPractices[0]?.total || 0,
+      recentVerifications: recentVerifications,
       recentTransactions: recentTransactions.map(t => ({
         id: t._id,
         date: t.createdAt,
-        buyer: t.buyerId?.companyDetails?.companyName || 'Unknown Company',
-        seller: t.sellerId?.farmDetails?.farmName || 'Unknown Farmer',
+        companyName: t.buyerId?.companyDetails?.companyName || 'Unknown Company',
+        farmerName: t.sellerId?.farmDetails?.farmName || 'Unknown Farmer',
+        farmerLocation: t.sellerId?.farmDetails?.farmLocation?.village || 'Unknown',
         credits: t.totalCredits,
-        amount: t.totalAmount
+        amount: t.totalAmount,
+        status: t.status
       }))
     });
   } catch (error) {
@@ -98,6 +114,7 @@ const getPendingVerifications = async (req, res) => {
       farmer.sustainablePractices.forEach(practice => {
         if (practice.verificationStatus === 'pending') {
           pendingPractices.push({
+            _id: practice._id,
             practiceId: practice._id,
             farmerId: farmer._id,
             farmerName: farmer.userId?.name || 'Unknown Farmer',
@@ -106,9 +123,14 @@ const getPendingVerifications = async (req, res) => {
             practiceType: practice.practiceType,
             description: practice.description,
             areaUnderPractice: practice.areaUnderPractice,
+            farmSize: practice.areaUnderPractice,
+            location: farmer.farmDetails?.farmLocation?.village || 'Unknown Location',
             startDate: practice.startDate,
+            evidence: practice.evidenceUrls || [],
             evidenceUrls: practice.evidenceUrls,
-            submissionDate: practice.createdAt
+            submittedDate: practice.createdAt,
+            verificationStatus: practice.verificationStatus,
+            creditsPotential: Math.round((practice.areaUnderPractice || 1) * 2.5)
           });
         }
       });
@@ -356,10 +378,133 @@ const getAllCredits = async (req, res) => {
   }
 };
 
+// @desc    Verify a practice (simplified endpoint for frontend)
+// @route   POST /api/admin/verify
+// @access  Private (Admin only)
+const verifyPracticeSimple = async (req, res) => {
+  try {
+    const { practiceId, status } = req.body;
+    
+    if (!practiceId || !status) {
+      return res.status(400).json({ message: 'Practice ID and status are required' });
+    }
+    
+    if (!['verified', 'rejected'].includes(status)) {
+      return res.status(400).json({ message: 'Status must be either verified or rejected' });
+    }
+    
+    // Find farmer with this practice
+    const farmer = await Farmer.findOne({
+      'sustainablePractices._id': practiceId
+    });
+    
+    if (!farmer) {
+      return res.status(404).json({ message: 'Practice not found' });
+    }
+    
+    // Find the practice
+    const practiceIndex = farmer.sustainablePractices.findIndex(
+      p => p._id.toString() === practiceId
+    );
+    
+    if (practiceIndex === -1) {
+      return res.status(404).json({ message: 'Practice not found' });
+    }
+    
+    // Update practice verification status
+    farmer.sustainablePractices[practiceIndex].verificationStatus = status;
+    farmer.sustainablePractices[practiceIndex].verificationDate = new Date();
+    farmer.sustainablePractices[practiceIndex].verifiedBy = req.user._id;
+    
+    await farmer.save();
+    
+    // If verified, create carbon credits
+    if (status === 'verified') {
+      const practice = farmer.sustainablePractices[practiceIndex];
+      
+      // Calculate carbon credits based on practice type and area
+      let carbonCredits = 0;
+      const area = practice.areaUnderPractice || 1;
+      
+      switch (practice.practiceType) {
+        case 'organic':
+          carbonCredits = Math.round(area * 2.5);
+          break;
+        case 'reduced-tillage':
+          carbonCredits = Math.round(area * 1.8);
+          break;
+        case 'crop-rotation':
+          carbonCredits = Math.round(area * 2.0);
+          break;
+        case 'cover-crops':
+          carbonCredits = Math.round(area * 2.2);
+          break;
+        case 'agroforestry':
+          carbonCredits = Math.round(area * 3.5);
+          break;
+        default:
+          carbonCredits = Math.round(area * 2.0);
+      }
+      
+      // Create carbon credit
+      const newCredit = await CarbonCredit.create({
+        farmerId: farmer._id,
+        creditAmount: carbonCredits,
+        pricePerCredit: 150, // Default price ₹150 per credit
+        status: 'available',
+        generationDate: new Date(),
+        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year expiry
+        metadata: {
+          practiceType: practice.practiceType,
+          practiceId: practice._id,
+          location: farmer.farmDetails?.farmLocation || {},
+          additionalInfo: {
+            description: practice.description,
+            areaUnderPractice: practice.areaUnderPractice
+          }
+        },
+        verificationDetails: {
+          verificationMethod: 'Expert Verification',
+          verificationScore: 9,
+          verificationDate: new Date(),
+          verifier: req.user.name
+        },
+        blockchainDetails: {
+          registered: false
+        }
+      });
+      
+      // Update farmer's carbon credit count
+      farmer.totalCarbonCredits = (farmer.totalCarbonCredits || 0) + carbonCredits;
+      farmer.availableCarbonCredits = (farmer.availableCarbonCredits || 0) + carbonCredits;
+      await farmer.save();
+      
+      return res.json({
+        message: 'Practice verified and carbon credits issued',
+        verificationStatus: status,
+        carbonCredit: {
+          id: newCredit._id,
+          amount: newCredit.creditAmount,
+          pricePerCredit: newCredit.pricePerCredit
+        }
+      });
+    }
+    
+    res.json({
+      message: `Practice ${status} successfully`,
+      verificationStatus: status
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   getDashboard,
   getPendingVerifications,
   verifyPractice,
+  verifyPracticeSimple,
   getAllUsers,
   getAllCredits
 };

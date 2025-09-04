@@ -4,6 +4,7 @@ const {
   getDashboard,
   getPendingVerifications,
   verifyPractice,
+  verifyPracticeSimple,
   getAllUsers,
   getAllCredits
 } = require('../controllers/admin.controller');
@@ -17,6 +18,7 @@ router.get('/dashboard', getDashboard);
 
 // Verification management
 router.get('/verifications', getPendingVerifications);
+router.post('/verify', verifyPracticeSimple);
 router.put('/verify-practice/:farmerId/:practiceId', verifyPractice);
 
 // User management
